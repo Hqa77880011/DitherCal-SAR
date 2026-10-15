@@ -96,10 +96,10 @@ Repeat the train/evaluate commands with the following variants:
 
 Foreground models remain fixed during drift. They receive `--foreground-samples` labeled ramp observations; the LUT uses only the ramp histogram. `--mlp-epochs` controls the supervised optimizer's iteration limit. Single-sided calibration uses independence of input and random signed dither; its pair-specific gate is disabled because it acquires no negative counterpart. It provides a concrete one-sided control for the under-specified baseline in the manuscript.
 
-For the mismatch sweep, regenerate with `--mismatch 0.002`, `0.005`, `0.01`, and `0.015`. For dither ablations, use `--dither 0.25`, `0.5`, or `1.5`. For drift tracking, change `--drift` and `--offset-drift`. Use seeds 0 through 31 for the stated 32-seed protocol, keep each seed in its own directory, and compare methods on the same generated converter. No experiment table is populated before these commands run.
+For the mismatch sweep, regenerate with `--mismatch 0.002`, `0.005`, `0.01`, and `0.015`. For dither ablations, use `--dither 0.25`, `0.5`, or `1.5`. For drift tracking, change `--drift` and `--offset-drift`. Use seeds 0 through 31 for the stated 32-seed protocol, keep each seed in its own directory, and compare methods on the same generated converter.
 
 ## Implementation conventions
 
 The manuscript leaves the exact drift waveform, optimizer, input distribution, static code-remapping convention, and one-sided objective unspecified. This implementation fixes them explicitly above. Pair acquisition uses independent conversion noise while retaining the same held input. Gaussian mismatch acts on effective bit weights. The default normalized gain drift is 0.002 end-to-end and comparator drift is 0.2 LSB end-to-end.
 
-The binary-prior and temporal penalties use relative weight differences so high-order bits do not dominate solely by scale. Monotonicity remains a finite penalty, and the evaluator reports reversals or missing codes instead of hiding them. The privileged oracle accesses the physical model only as a comparison decoder. CI checks syntax and package construction without running calibration or experiments.
+The binary-prior and temporal penalties use relative weight differences so high-order bits do not dominate solely by scale. Monotonicity remains a finite penalty, and the evaluator reports reversals or missing codes instead of hiding them. The privileged oracle accesses the physical model only as a comparison decoder.
